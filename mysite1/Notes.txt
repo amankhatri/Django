@@ -1,0 +1,68 @@
+to make a project :
+django-admin.py startproject projectName
+to run the server you go into the director: manage.py runserver
+ you haven't actually done any work yet. Next, start your first app by running python manage.py startapp [app_label].
+
+ databases setttins s in project Directory/project Directory/settings.py
+ and change the database to 
+ DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+i changed the name of the database to
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mysite1.db',
+    }
+}
+
+enable admin 
+INSTALLED_APPS = (
+    #This line should be uncommented to enable admin:
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+)
+
+
+NOW GO TO URLS.py file make no changes 
+
+
+now go to command prompt to sync db  : manage.py syncdb and create users (username: admin, email: admin@mysite1.com , password: admin)
+
+# making blog
+# starting an app
+manage.py startapp blog
+now we will have a new folder in projectdirectory
+projectdirectory/blog
+#edit projectdirectory/blogs/models.py
+
+class post(models.Model):
+	title = models.Charfield(max_length = 140)
+	body = models.TextField()
+	date = models.DateTimeField()
+	def __unicode__(self):
+		return self.title
+
+#edit projectdirectory/blogs/admin.py
+from blogs.models import Post
+# Register your models here.
+admin.site.register(Post)
+
+#now go to mysite1/mysite1/settings.py and change nothing
+
+run command manage.py syncdb
+run command manage.py makemigrations
+run command manage.py syncdb
+
+#now we will have to display the blog somewhere so lets go to
+mysite/mysite/urls.py
+and add 
+from django.contrib import blog  to the file
