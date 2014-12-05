@@ -127,5 +127,35 @@ and
 </div>
 {% endblock %}
 
+we are making archives 
+editing urls.py
+^ <anything
+url(r'^archives/$',ListView.as_view(queryset=Post.objects.all().order_by("-date"), template_name="archives.html")),
+    url(r'^latestnews/$',ListView.as_view(queryset=Post.objects.all().order_by("-date") [:5], template_name="latestnews.html")),
 
 
+now we will make archive.html  and latestnewstemplate.html
+1) add to achieve.html file:  
+{% extends "base.html" %}
+{% block content %}
+{% for post in object_list %}
+<p>{{ post.date }}<a href= "/blog/{{post.id}}"> {{post.title}}</a></p>
+{% endfor %}
+{% endblock %}
+
+to format date in above code you do :
+<p>{{ post.date|date:"Y-m-d" }}<a href= "/blog/{{post.id}}"> {{post.title}}</a></p>
+
+now rename archive.html as postlisting because we will use same html file for latest news and archieves
+and edit blog/urls.py 
+url(r'^archives/$',ListView.as_view(queryset=Post.objects.all().order_by("-date"), template_name="postlistings.html")),
+    url(r'^latestnews/$',ListView.as_view(queryset=Post.objects.all().order_by("-date") [:5], template_name="postlistings.html")),
+
+now localbhost:8000/latestnews should render nothing so edit 
+mysite1/urls.py
+add 
+url(r'^blog/', include('blog.urls')),
+    url(r'^latestnews/', include('blog.urls')),
+    url(r'^admin/', include(admin.site.urls)),
+)
+ and go to localhost:8000/latestnews all is well now
