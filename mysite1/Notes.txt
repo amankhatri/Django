@@ -95,3 +95,37 @@ mysite1/blog
 3)Edit base.html which is the hearder file
 
 and run manage.py syncdb
+
+now we will add links to the blogs 
+edit blog.html and add 
+<h3><a href= "/blog/{{post.id}}"> {{post.title}}</h3>
+<div class = "post_meta">
+    on {{ post.date }}
+</div>
+
+no go to mystie1/blog/urls.py
+from django.views.generic import ListView, DetailView
+and change 
+
+urlpatterns = patterns('',
+    url(r'^$',ListView.as_view(queryset=Post.objects.all().order_by("-date") [:25], template_name="blog.html")),
+    url(r'^(?P<pk>\d+)$',DetailView.as_view(model = Post,template_name="post.html")),
+                       
+                       )
+
+go to blog/template 
+create new file with the name post.html
+and 
+{% extends "base.html" %}
+{% block content %}
+<h3><a href= "/blog/{{post.id}}"> {{post.title}}</a></h3>
+<div class = "post_meta">
+    on {{ post.date }}
+</div>
+<div class = "post_body">
+    {{ post.body|safe|linebreaks }}
+</div>
+{% endblock %}
+
+
+
