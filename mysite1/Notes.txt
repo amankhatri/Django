@@ -65,4 +65,33 @@ run command manage.py syncdb
 #now we will have to display the blog somewhere so lets go to
 mysite/mysite/urls.py
 and add 
-from django.contrib import blog  to the file
+ admin.autodiscover() to the file
+
+also change 
+urlpatterns = patterns('',
+    # Examples:
+    # url(r'^$', 'mysite1.views.home', name='home'),
+    url(r'^blog/', include('blog.urls')),
+    url(r'^admin/', include(admin.site.urls)),
+)
+
+now we will edit mysite/blog/urls.py
+first make a urls.py file in the blog folder
+and add 
+from django.conf.urls import patterns, include, url
+from django.views.generic import ListView
+from django.models import Post
+
+urlpatterns = patterns('',url(r'^',ListView.as_view(
+                        queryset=Post.objects.all()order_by"-date")[:10],
+                        template_name="blog.html"))
+to the file
+
+#now we will create the templates within the folder
+mysite1/blog 
+1) now create blog.html and base.html
+2)Edit blog.html
+    {% %} embeding python in html
+3)Edit base.html which is the hearder file
+
+and run manage.py syncdb
