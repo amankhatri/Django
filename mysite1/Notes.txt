@@ -83,7 +83,7 @@ from django.views.generic import ListView
 from django.models import Post
 
 urlpatterns = patterns('',url(r'^',ListView.as_view(
-                        queryset=Post.objects.all()order_by"-date")[:10],
+                        queryset=Post.objects.all().order_by"-date")[:10],
                         template_name="blog.html"))
 to the file
 
